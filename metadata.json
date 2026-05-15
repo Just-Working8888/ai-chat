@@ -1,0 +1,8 @@
+{
+  "name": "Voice AI Chat",
+  "description": "Приложение для текстового и голосового интерфейса с ИИ.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}
