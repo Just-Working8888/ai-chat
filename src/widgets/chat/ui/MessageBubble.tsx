@@ -44,7 +44,7 @@ export function MessageBubble({ message, isLastAssistant, onRegenerate }: Messag
   if (isUser) {
     return (
       <motion.div {...fadeUp} className="flex flex-col items-end">
-        <div className="bg-[#111111] text-white px-3.5 py-2.5 rounded-[14px] rounded-br-[6px] max-w-[85%] sm:max-w-[560px] whitespace-pre-wrap break-words text-[15px]">
+        <div className="bg-[#2250a5] text-white px-4 py-2.5 rounded-[16px] rounded-br-[6px] max-w-[85%] sm:max-w-[560px] whitespace-pre-wrap break-words text-[15px] shadow-sm">
           {message.content.split('\n').map((line, i) => <div key={i}>{line || '\u00A0'}</div>)}
         </div>
       </motion.div>
@@ -53,30 +53,30 @@ export function MessageBubble({ message, isLastAssistant, onRegenerate }: Messag
 
   return (
     <motion.div {...fadeUp} className="flex flex-col items-stretch group">
-      <div className="flex items-center gap-2 text-[11.5px] text-[#71717a] mb-1.5 tracking-wide">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#111111] inline-block" />
+      <div className="flex items-center gap-2 text-[12px] text-[#869fc4] mb-2 tracking-wide font-medium">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#869fc4] inline-block" />
         <span>Ассистент</span>
       </div>
-      <div className={cn('text-[#3f3f46] text-[15px] prose max-w-none')}>
+      <div className={cn('text-[#e2e8f0] text-[15.5px] prose prose-invert max-w-none')}>
         <ReactMarkdown>{message.content}</ReactMarkdown>
       </div>
       {message.content && (
-        <div className="flex gap-1 mt-2 transition-opacity opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+        <div className="flex gap-1.5 mt-2.5 transition-opacity opacity-0 group-hover:opacity-100 focus-within:opacity-100">
           <button
             onClick={handleCopy}
             title="Скопировать"
-            className="appearance-none border-0 bg-transparent text-[#71717a] text-[11.5px] inline-flex items-center gap-[5px] py-1 px-2 rounded-lg cursor-pointer hover:bg-[#f5f5f4] hover:text-[#3f3f46] transition-colors"
+            className="appearance-none border-0 bg-transparent text-[#869fc4] text-[12px] inline-flex items-center gap-[5px] py-1.5 px-2.5 rounded-lg cursor-pointer hover:bg-[#102d6b] hover:text-white transition-colors"
           >
-            {copied ? <Icon.Check className="w-[13px] h-[13px]" /> : <Icon.Copy className="w-[13px] h-[13px]" />}
+            {copied ? <Icon.Check className="w-[14px] h-[14px]" /> : <Icon.Copy className="w-[14px] h-[14px]" />}
             <span>{copied ? 'Скопировано' : 'Скопировать'}</span>
           </button>
           {isLastAssistant && onRegenerate && (
             <button
               onClick={onRegenerate}
               title="Перегенерировать"
-              className="appearance-none border-0 bg-transparent text-[#71717a] text-[11.5px] inline-flex items-center gap-[5px] py-1 px-2 rounded-lg cursor-pointer hover:bg-[#f5f5f4] hover:text-[#3f3f46] transition-colors"
+              className="appearance-none border-0 bg-transparent text-[#869fc4] text-[12px] inline-flex items-center gap-[5px] py-1.5 px-2.5 rounded-lg cursor-pointer hover:bg-[#102d6b] hover:text-white transition-colors"
             >
-              <Icon.Refresh className="w-[13px] h-[13px]" />
+              <Icon.Refresh className="w-[14px] h-[14px]" />
               <span>Перегенерировать</span>
             </button>
           )}

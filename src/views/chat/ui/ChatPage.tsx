@@ -8,12 +8,7 @@ import { MessageBubble } from '../../../widgets/chat/ui/MessageBubble';
 import { ChatInput } from '../../../widgets/chat/ui/ChatInput';
 import { ChatHeader } from '../../../widgets/chat/ui/ChatHeader';
 
-const STARTERS = [
-  'Объясни простыми словами квантовую запутанность',
-  'Идеи для названия кофейни в стиле минимализм',
-  'Напиши план презентации на 5 слайдов про ИИ-агенты',
-  'Сравни TypeScript и Python для бэкенда',
-];
+
 
 export function ChatPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -54,8 +49,8 @@ export function ChatPage() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex flex-col h-[100dvh] min-h-0 bg-[#fafaf9]">
-      <ChatHeader />
+    <div className="flex flex-col h-[100dvh] min-h-0 bg-[#0b2253] text-white">
+      {hasMessages && <ChatHeader />}
 
       <main ref={scrollRef} className="flex-1 overflow-y-auto min-h-0">
         <AnimatePresence mode="wait">
@@ -66,45 +61,44 @@ export function ChatPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="flex flex-col items-center text-center pt-[min(12vh,80px)] pb-6 px-3"
+              className="flex flex-col items-start pt-[min(15vh,100px)] pb-6 px-6 sm:px-12 max-w-[800px] mx-auto w-full"
             >
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="w-[54px] h-[54px] rounded-2xl bg-[#111111] shadow-[0_6px_24px_rgba(0,0,0,0.08)] mb-[22px] relative before:absolute before:bg-white before:rounded-[2px] before:left-[14px] before:right-[14px] before:top-[18px] before:h-[2.5px] after:absolute after:bg-white after:rounded-[2px] after:left-[14px] after:w-[18px] after:top-[26px] after:h-[2.5px]"
-              />
+                className="w-[46px] h-[46px] rounded-[14px] bg-[#2250a5] mb-8 flex items-center justify-center shrink-0 shadow-sm"
+              >
+                <div className="text-white">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+                  </svg>
+                </div>
+              </motion.div>
               <motion.h1
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08, duration: 0.25 }}
-                className="text-[24px] font-semibold tracking-tight mb-[6px]"
+                className="text-[26px] font-medium tracking-tight mb-4"
               >
-                Начните разговор
+                Hi there!
               </motion.h1>
+              <motion.h2
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.13, duration: 0.25 }}
+                className="text-[36px] sm:text-[42px] font-semibold tracking-tight mb-5 leading-tight"
+              >
+                What would you like to know?
+              </motion.h2>
               <motion.p
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.13, duration: 0.25 }}
-                className="text-[14px] text-[#71717a] mb-7"
+                transition={{ delay: 0.18, duration: 0.25 }}
+                className="text-[17px] text-[#869fc4] leading-relaxed max-w-[400px]"
               >
-                Введите вопрос или нажмите микрофон
+                Use one of the most common prompts below<br/>or ask your own question
               </motion.p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-[620px]">
-                {STARTERS.map((s, i) => (
-                  <motion.button
-                    key={i}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.18 + i * 0.06, duration: 0.22 }}
-                    onClick={() => handleSend(s)}
-                    className="appearance-none bg-white border border-[#e7e5e4] p-[14px] rounded-xl flex items-center justify-between gap-2.5 text-[13.5px] text-[#3f3f46] text-left cursor-pointer hover:border-[#d4d4d8] hover:bg-[#f5f5f4] transition-all leading-[1.4]"
-                  >
-                    <span>{s}</span>
-                    <span className="text-[#a1a1aa] text-[14px] shrink-0">↗</span>
-                  </motion.button>
-                ))}
-              </div>
             </motion.div>
           ) : (
             <motion.div
@@ -135,14 +129,14 @@ export function ChatPage() {
                     transition={{ duration: 0.2 }}
                     className="flex flex-col items-stretch"
                   >
-                    <div className="flex items-center gap-2 text-[11.5px] text-[#71717a] mb-1.5 tracking-wide">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#111111] inline-block" />
+                    <div className="flex items-center gap-2 text-[12px] text-[#869fc4] mb-2 tracking-wide font-medium">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#869fc4] inline-block" />
                       <span>Ассистент</span>
                     </div>
                     <div className="inline-flex gap-[5px] py-1">
-                      <span className="w-[6px] h-[6px] rounded-full bg-[#a1a1aa] animate-bounce-dots" />
-                      <span className="w-[6px] h-[6px] rounded-full bg-[#a1a1aa] animate-bounce-dots" style={{ animationDelay: '0.15s' }} />
-                      <span className="w-[6px] h-[6px] rounded-full bg-[#a1a1aa] animate-bounce-dots" style={{ animationDelay: '0.3s' }} />
+                      <span className="w-[6px] h-[6px] rounded-full bg-[#869fc4] animate-bounce-dots" />
+                      <span className="w-[6px] h-[6px] rounded-full bg-[#869fc4] animate-bounce-dots" style={{ animationDelay: '0.15s' }} />
+                      <span className="w-[6px] h-[6px] rounded-full bg-[#869fc4] animate-bounce-dots" style={{ animationDelay: '0.3s' }} />
                     </div>
                   </motion.div>
                 )}

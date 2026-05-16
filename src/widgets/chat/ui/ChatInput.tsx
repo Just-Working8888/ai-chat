@@ -53,62 +53,61 @@ export function ChatInput({ isLoading, onSend, onAbort }: ChatInputProps) {
   };
 
   return (
-    <div className="border-t border-[#e7e5e4] bg-gradient-to-b from-[#fafaf9]/0 to-[#fafaf9] pt-[14px] pb-[14px] px-4 sm:px-8">
-      <div className="max-w-[760px] mx-auto">
-        <div className="flex flex-col bg-white border border-[#e7e5e4] rounded-[14px] p-2.5 pb-2 composer-shadow focus-within:border-[#d4d4d8] focus-within:composer-shadow-focus transition-all">
+    <div className="bg-transparent pt-[14px] pb-[14px] px-6 sm:px-12 w-full">
+      <div className="max-w-[800px] mx-auto">
+        <div className="flex items-center bg-[#102d6b] border border-[#1d3d82] rounded-[16px] sm:rounded-2xl p-2 transition-all focus-within:border-[#2a52a5]">
+          <button
+            onClick={toggleRecording}
+            disabled={!isSupported}
+            title={isSupported ? (isRecording ? "Остановить запись" : "Записать голос") : "Голосовой ввод не поддерживается"}
+            className={cn(
+              "w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 transition-all",
+              isRecording 
+                ? "bg-red-500/20 text-red-400 animate-pulse relative" 
+                : "text-[#6b8cbe] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed"
+            )}
+          >
+            {isRecording ? (
+               <span className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_0_0_rgba(239,68,68,0.5)] animate-ping" />
+            ) : (
+              <Icon.Mic className="w-5 h-5" strokeWidth={1.8} />
+            )}
+          </button>
+          
           <textarea
             ref={textareaRef}
             value={text}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            placeholder={isRecording ? "Слушаю..." : "Спросите что-нибудь..."}
-            className="w-full bg-transparent resize-none outline-none px-1 py-1.5 min-h-[24px] max-h-[220px] text-[15px] text-[#111111] placeholder-[#a1a1aa]"
+            placeholder={isRecording ? "Слушаю..." : "Ask whatever you want"}
+            className="flex-1 bg-transparent resize-none outline-none px-3 py-2 min-h-[40px] max-h-[120px] text-[16px] text-white placeholder-[#6b8cbe] overflow-hidden"
             rows={1}
+            style={{ paddingTop: '9px', paddingBottom: '9px' }}
           />
-          <div className="flex items-center gap-2 pt-1">
+
+          {isLoading ? (
             <button
-              onClick={toggleRecording}
-              disabled={!isSupported}
-              title={isSupported ? (isRecording ? "Остановить запись" : "Записать голос") : "Голосовой ввод не поддерживается"}
-              className={cn(
-                "w-[34px] h-[34px] rounded-full border border-[#e7e5e4] bg-white flex items-center justify-center shrink-0 transition-all",
-                isRecording 
-                  ? "bg-red-50 border-red-200 text-red-600 animate-pulse relative" 
-                  : "text-[#3f3f46] hover:bg-[#f5f5f4] hover:text-[#111111] disabled:opacity-40 disabled:cursor-not-allowed"
-              )}
+              onClick={onAbort}
+              title="Остановить"
+              className="h-[40px] px-4 rounded-xl bg-[#2250a5] text-white flex items-center gap-1.5 text-[14px] font-medium shrink-0 hover:bg-[#2b60c4] transition-colors"
             >
-              {isRecording ? (
-                 <span className="w-2.5 h-2.5 rounded-full bg-red-600 shadow-[0_0_0_0_rgba(220,38,38,0.5)] animate-ping" />
-              ) : (
-                <Icon.Mic className="w-[18px] h-[18px]" strokeWidth={1.7} />
-              )}
+              <Icon.Stop className="w-4 h-4 fill-current" />
             </button>
-            <div className="text-[11px] text-[#a1a1aa] ml-1 flex-1 hidden sm:block truncate">
-              Enter — отправить · Shift+Enter — новая строка
-            </div>
-            {isLoading ? (
-              <button
-                onClick={onAbort}
-                title="Остановить"
-                className="h-[34px] px-3.5 rounded-[10px] bg-[#3f3f46] text-white flex items-center gap-1.5 text-[13px] font-medium shrink-0 hover:opacity-90 transition-opacity"
-              >
-                <Icon.Stop className="w-3.5 h-3.5 fill-current" />
-                <span>Остановить</span>
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={!text.trim()}
-                title="Отправить"
-                className="h-[34px] w-[34px] rounded-[10px] bg-[#111111] text-white flex items-center justify-center shrink-0 disabled:opacity-35 disabled:cursor-not-allowed hover:opacity-90 transition-opacity active:translate-y-[1px]"
-              >
-                <Icon.ArrowUp className="w-[18px] h-[18px]" strokeWidth={1.8} />
-              </button>
-            )}
-          </div>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              disabled={!text.trim()}
+              title="Отправить"
+              className="h-[40px] w-[40px] rounded-xl bg-[#2250a5] text-white flex items-center justify-center shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2b60c4] transition-colors"
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          )}
         </div>
         {error && (
-            <div className="mt-2 text-[#9f1239] text-[12px] bg-[#fff1f2] border border-[#fecdd3] px-2.5 py-1.5 rounded-lg">
+            <div className="mt-2 text-red-400 text-[13px] bg-red-900/30 border border-red-800/50 px-3 py-2 rounded-xl">
                 Ошибка: {error}
             </div>
         )}
